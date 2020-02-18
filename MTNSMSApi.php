@@ -8,7 +8,6 @@ class MTNSMSApi extends BaseApi{
      * The base URL for the MTN SMS Cloud Api
      */
     private $base_api_url = "https://api.smscloud.ci/v1/";
-    //private $base_api_url = "https://api.adjemin.com/v2/customers";
 
     /**
      * The SENDER ID of an existing sender
