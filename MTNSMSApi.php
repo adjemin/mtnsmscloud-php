@@ -1,6 +1,6 @@
 <?php
 
-require_once "./Core/BaseApi.php";
+require_once "./core/BaseApi.php";
 
 class MTNSMSApi extends BaseApi{
 
@@ -9,7 +9,7 @@ class MTNSMSApi extends BaseApi{
      */
     private $base_api_url = "https://api.smscloud.ci/v1/";
     //private $base_api_url = "https://api.adjemin.com/v2/customers";
-    
+
     /**
      * The SENDER ID of an existing sender
      *
