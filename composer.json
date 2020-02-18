@@ -1,0 +1,17 @@
+{
+    "name": "adjemin/smscloud",
+    "description": "That packages provides suitables classes for SMSCloud performing.",
+    "type": "library",
+    "require": {
+    },
+    "require-dev": {
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mikofb",
+            "email": "broukoffifranckkmichael@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
