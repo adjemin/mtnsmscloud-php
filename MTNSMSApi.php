@@ -2,12 +2,21 @@
 
 require_once "./core/BaseApi.php";
 
+/**
+ * This class is for for performing Api call on MTN SMS CLOUD server.
+ * You can use it for: 
+ *  - Create new sms campaign
+ *  - Retrieves a campaign
+ *  
+ * @license MIT
+ * @author Franck BROU <franckbrou@adjemin.com>
+ */
 class MTNSMSApi extends BaseApi{
 
     /**
      * The base URL for the MTN SMS Cloud Api
      */
-    private $base_api_url = "https://api.smscloud.ci/v1/";
+    private $base_api_url = "https://api.smscloud.ci/v1";
 
     /**
      * The SENDER ID of an existing sender
@@ -111,28 +120,31 @@ class MTNSMSApi extends BaseApi{
      *
      * @return Request
      */
-    public function newCampaing($recipients, $content, $body)
+    public function newCampaign($recipients, $content)
     {
-        // Scafolding the request's body
+        // Recipients testing
+        if (is_array($recipients) == false) {
+            $this->sendError(400, false, "The parameter `recipients` must be an array");
+        }
+        if (count($recipients) == 0) {
+            $this->sendError(400, false, "No phone number provided.");
+        }
+        // Scafolding the request's params
         $b = [
             "sender"=> $this->getSenderID(),
             "recipients"=> $recipients,
             "content"=> $content
         ];
 
-        // Merging the request's body with a optional one
-        $b = array_merge($b, $body);
-        $b = json_encode($b);
-
         // Scafolding request's options
         $options = [
             'headers'=> [
-                'Authorization' => 'Bearer '.$this->getAuthHeader().'',
-                'Accept'=>'application/json',
-                'Content-Type'=>'application/json',
-                'Cache-Control'=>'no-cache'
+                'Authorization: Bearer '.$this->getAuthHeader(),
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'Cache-Control: no-cache'
             ],
-            'body' => $b
+            'params' => $b
         ];
         // Sending POST Request
         return $this->post('campaigns', $options);
@@ -148,19 +160,19 @@ class MTNSMSApi extends BaseApi{
     public function getCampaign($campaign_id)
     {
         if (is_null($campaign_id) || $campaign_id == "") {
-            return response()->json(['success' => false, 'message'=> "Please, provide a compaign id."], 400);
+            return $this->sendError(400, false, "No campaign ID provided.");
         }
         // Scafolding request's options
         $options = [
             'headers'=> [
-                'Authorization' => 'Bearer '.$this->getAuthHeader().'',
-                'Accept'=>'application/json',
-                'Content-Type'=>'application/json',
-                'Cache-Control'=>'no-cache'
+                'Authorization: Bearer '.$this->getAuthHeader(),
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'Cache-Control: no-cache'
             ]
         ];
         // Sending Get Request
-        $this->get('campaigns/'.$campaign_id, $options);
+        return $this->get('campaigns/'.$campaign_id, $options);
     }
 
     /**
@@ -178,32 +190,25 @@ class MTNSMSApi extends BaseApi{
      * @return Request
      * 
      */
-    public function getMessages($status, 
-                                $campaign_id, 
-                                $dispatchedAt_before, 
-                                $dispatchedAt_after, 
-                                $updatedAt_before,
-                                $updatedAt_after,
-                                $page,
-                                $length)
+    public function getMessages($status = null, $campaign_id, $dispatchedAt_before, $dispatchedAt_after, $updatedAt_before = null, $updatedAt_after = null, $page = 1, $length = 2)
     {
         $options = [
             'headers'=> [
-                'Authorization' => 'Bearer '.$this->getAuthHeader(),
-                'Accept'=>'application/json',
-                'Content-Type'=>'application/json',
-                'Cache-Control'=>'no-cache'
+                'Authorization: Bearer '.$this->getAuthHeader(),
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'Cache-Control: no-cache'
             ],
             'params' => [
                 'sender' => $this->getSenderID(),
-                'status' => '',
-                'campaingId' => '',
-                'dispatchedAt_before' => '',
-                'dispatchedAt_after' => '',
-                'updatedAt_before' => '',
-                'updatedAt_after' => '',
-                'page' => '',
-                'length' => '',
+                'status' => $status,
+                'campaingId' => $campaign_id,
+                'dispatchedAt_before' => $dispatchedAt_before,
+                'dispatchedAt_after' => $dispatchedAt_after,
+                'updatedAt_before' => $updatedAt_before,
+                'updatedAt_after' => $updatedAt_after,
+                'page' => $page,
+                'length' => $length,
             ],
         ];
 
