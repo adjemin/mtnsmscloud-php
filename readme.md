@@ -1,19 +1,17 @@
 # ADJEMIN SMS CAMPAIGN
-
 This repository provides suitables tools for performing sms campaign. Actually, only Api's from MTN SMS CLOUD are embedded.
 
 ## Architecture
-
-This repo has two main classes
+This repo has two main classes:
 
   - **BaseApi** in `./core/BaseApi.php`
   - **MTNSMSApi** in `./MTNSMSApi.php`
 
-## Development
+The first class is used to perform POST and GET HTTP request.
+The second one is used for MTN SMS.
 
+## Instanciation
 Be sure to check the namespace first.
-
-### Instanciation
 
 ```php
 require_once "./MTNSMSApi.php";
@@ -43,3 +41,5 @@ return $msa->newCampaign($recipients, $message);
 return $msa->getCampaign($campaign_id, $message);
 
 ```
+
+> Made with :heart by Mikofb.
