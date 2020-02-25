@@ -42,4 +42,4 @@ return $msa->getCampaign($campaign_id, $message);
 
 ```
 
-> Made with :heart by Mikofb.
+> Made with :heart: by Mikofb.
