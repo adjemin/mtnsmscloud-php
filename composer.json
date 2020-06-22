@@ -1,5 +1,5 @@
 {
-    "name": "adjemin/smscloud",
+    "name": "adjemin/mtnsmscloud",
     "description": "That packages provides suitables classes for SMSCloud performing.",
     "type": "library",
     "require": {
