@@ -1,4 +1,4 @@
-# ADJEMIN SMS CAMPAIGN
+# MTN SMS CLOUD PHP
 This repository provides suitables tools for performing sms campaign. Actually, only Api's from MTN SMS CLOUD are embedded.
 
 ## Architecture
