@@ -2,16 +2,31 @@
     "name": "adjemin/mtnsmscloud",
     "description": "That packages provides suitables classes for SMSCloud performing.",
     "type": "library",
-    "require": {
-    },
-    "require-dev": {
-    },
+    "homepage": "https://github.com/adjemin/mtnsmscloud-php",
     "license": "MIT",
+    "version": "1.0.3",
+    "keywords": [
+        "smscloud",
+        "integration",
+        "sms api"
+      ],
     "authors": [
         {
-            "name": "Mikofb",
-            "email": "broukoffifranckkmichael@gmail.com"
+            "name": "Adjemin and contributors",
+            "homepage": "https://github.com/adjemin/mtnsmscloud-php"
         }
     ],
-    "minimum-stability": "stable"
+    "support": {
+        "email": "dev@adjemin.com"
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.6.0"
+    },
+    "require-dev": {},
+    "autoload": {
+        "psr-0": {
+          "SmartLivraison": "src/"
+        }
+    }
 }
