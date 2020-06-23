@@ -14,7 +14,7 @@ The second one is used for MTN SMS.
 Be sure to check the namespace first.
 
 ```php
-require_once "./MTNSMSApi.php";
+use MtnSmsCloud/MTNSMSApi";
 
 /**
  * Create a new Instance
