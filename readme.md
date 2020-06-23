@@ -21,8 +21,8 @@ composer require adjemin/mtnsmscloud
 
 This repo has two main classes:
 
-  - **BaseApi** in [`./src/MtnSmsCloud/BaseApi.php`](`./src/MtnSmsCloud/BaseApi.php`)
-  - **MTNSMSApi** in [`./src/MtnSmsCloudException/MTNSMSApi.php`](`./src/MtnSmsCloudException/MTNSMSApi.php`)
+  - **BaseApi** in [`./src/MtnSmsCloud/BaseApi.php`](./src/MtnSmsCloud/BaseApi.php)
+  - **MTNSMSApi** in [`./src/MtnSmsCloud/MTNSMSApi.php`](./src/MtnSmsCloud/MTNSMSApi.php)
 
 The first class is used to perform POST and GET HTTP request.
 The second one is used for MTN SMS.
