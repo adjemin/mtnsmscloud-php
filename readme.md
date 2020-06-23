@@ -1,6 +1,18 @@
 # MTN SMS CLOUD PHP
 This repository provides suitables tools for performing sms campaign. Actually, only Api's from MTN SMS CLOUD are embedded.
 
+## Requirements
+
+PHP 5.6.0 and later.
+
+## Composer
+
+You can install the bindings via [Composer](http://getcomposer.org/). Run the following command:
+
+```bash
+composer require adjemin/mtnsmscloud-php
+```
+
 ## Architecture
 This repo has two main classes:
 
