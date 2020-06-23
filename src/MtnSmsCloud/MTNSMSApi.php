@@ -4,41 +4,45 @@ namespace MtnSmsCloud;
 
 /**
  * This class is for for performing Api call on MTN SMS CLOUD server.
- * You can use it for: 
+ * You can use it for:
  *  - Create new sms campaign
  *  - Retrieves a campaign
- *  
+ *
  * @license MIT
  * @author Franck BROU <franckbrou@adjemin.com>
  */
-class MTNSMSApi extends BaseApi{
-
+class MTNSMSApi extends BaseApi
+{
     /**
-     * The base URL for the MTN SMS Cloud Api
+     * Define The base URL
+     *
+     * @var string
      */
     private $base_api_url = "https://api.smscloud.ci/v1";
 
     /**
-     * The SENDER ID of an existing sender
+     * Define sender ID
      *
-     * @var string $sender_id
+     * @var string
      */
     private $sender_id;
 
     /**
-     * The Bearer Token of an existing MTN SMS Cloud account 
+     * Define the Bearer Token
      *
-     * @var string $auth_header
+     * @var string
      */
     private $auth_header;
 
     /**
-     * Initializinz the Class
-     * 
+     * MTNSMSApi constructor
+     *
      * @param string $sender_id
      * @param string $auth_header
+     * @return void
      */
-    public function __construct($sender_id, $auth_header){
+    public function __construct($sender_id, $auth_header)
+    {
         parent::__construct($this->getBaseApiUrl());
         $this->setSenderID($sender_id);
         $this->setAuthHeader($auth_header);
@@ -46,42 +50,40 @@ class MTNSMSApi extends BaseApi{
 
     /**
      * Set the Sender ID property
-     * 
-     * @param string $var
-     * 
+     *
+     * @param string $sender_id
      * @return void
      */
-    public function setSenderID($var)
+    public function setSenderID($sender_id)
     {
-        $this->sender_id = $var;
+        $this->sender_id = $sender_id;
     }
 
     /**
      * Set the Authorization Bearer token
-     * 
-     * @param string $var
-     * 
+     *
+     * @param string $auth
      * @return void
      */
-    public function setAuthHeader($var)
+    public function setAuthHeader($auth_header)
     {
-        $this->auth_header = $var;
+        $this->auth_header = $auth_header;
     }
 
     /**
      * Return the base api url property
      *
-     * @return void
+     * @return string
      */
     public function getBaseApiUrl()
     {
         return $this->base_api_url;
     }
+
     /**
      * Returns the provided sender ID
      *
      * @return string
-     * 
      * @return void
      */
     public function getSenderID()
@@ -93,7 +95,6 @@ class MTNSMSApi extends BaseApi{
      * Return the Athorization Bearer Token
      *
      * @return string
-     * 
      * @return void
      */
     public function getAuthHeader()
@@ -108,7 +109,10 @@ class MTNSMSApi extends BaseApi{
      */
     public function toArray()
     {
-        return ['sender_id' => $this->getSenderID(), 'auth_header' => $this->getAuthHeader()];
+        return [
+            'sender_id' => $this->getSenderID(),
+            'auth_header' => $this->getAuthHeader()
+        ];
     }
 
     /**
@@ -117,8 +121,7 @@ class MTNSMSApi extends BaseApi{
      * @param array $recipients
      * @param integer $content
      * @param array $body
-     *
-     * @return Request
+     * @return mixed
      */
     public function newCampaign($recipients, $content)
     {
@@ -126,11 +129,13 @@ class MTNSMSApi extends BaseApi{
         if (is_array($recipients) == false) {
             $this->sendError(400, false, "The parameter `recipients` must be an array");
         }
+
         if (count($recipients) == 0) {
             $this->sendError(400, false, "No phone number provided.");
         }
+        
         // Scafolding the request's params
-        $b = [
+        $params = [
             "sender"=> $this->getSenderID(),
             "recipients"=> $recipients,
             "content"=> $content
@@ -144,8 +149,9 @@ class MTNSMSApi extends BaseApi{
                 'Content-Type: application/json',
                 'Cache-Control: no-cache'
             ],
-            'params' => $b
+            'params' => $bparams
         ];
+
         // Sending POST Request
         return $this->post('campaigns', $options);
     }
@@ -154,14 +160,14 @@ class MTNSMSApi extends BaseApi{
      * Get a Campaign
      *
      * @param string $campaign_id
-     *
-     * @return Request
+     * @return mixed
      */
     public function getCampaign($campaign_id)
     {
         if (is_null($campaign_id) || $campaign_id == "") {
             return $this->sendError(400, false, "No campaign ID provided.");
         }
+
         // Scafolding request's options
         $options = [
             'headers'=> [
@@ -171,24 +177,25 @@ class MTNSMSApi extends BaseApi{
                 'Cache-Control: no-cache'
             ]
         ];
+
         // Sending Get Request
         return $this->get('campaigns/'.$campaign_id, $options);
     }
 
     /**
      * Retrieves all messages associated to the provided authentification Bearer token
-     * 
+     *
+     * All dispatchedAt_* format { (Datetime) 2020-02-14 14:14:00 => 20200214141400}
+     *
      * @param string $status,
      * @param string $campaign_id,
-     * @param string $dispatchedAt_before { (Datetime) 2020-02-14 14:14:00 => 20200214141400}
-     * @param string $dispatchedAt_after { (Datetime) 2020-02-14 14:14:00 => 20200214141400}
-     * @param string $updatedAt_before { (Datetime) 2020-02-14 14:14:00 => 20200214141400}
-     * @param string $updatedAt_after { (Datetime) 2020-02-14 14:14:00 => 20200214141400}
-     * @param int $page { Page number }
-     * @param int $length { Nomber of messages per pages }
-     * 
-     * @return Request
-     * 
+     * @param string $dispatchedAt_before
+     * @param string $dispatchedAt_after
+     * @param string $updatedAt_before
+     * @param string $updatedAt_after
+     * @param int $page Page numbe
+     * @param int $length Nomber of messages per pages
+     * @return mixed
      */
     public function getMessages($status = null, $campaign_id, $dispatchedAt_before, $dispatchedAt_after, $updatedAt_before = null, $updatedAt_after = null, $page = 1, $length = 2)
     {
