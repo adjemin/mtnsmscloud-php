@@ -1,6 +1,6 @@
 <?php
 
-require_once "./core/BaseApi.php";
+namespace MtnSmsCloud;
 
 /**
  * This class is for for performing Api call on MTN SMS CLOUD server.

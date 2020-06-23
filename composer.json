@@ -4,7 +4,7 @@
     "type": "library",
     "homepage": "https://github.com/adjemin/mtnsmscloud-php",
     "license": "MIT",
-    "version": "1.0.3",
+    "version": "1.0.1",
     "keywords": [
         "smscloud",
         "integration",
@@ -26,7 +26,7 @@
     "require-dev": {},
     "autoload": {
         "psr-0": {
-          "SmartLivraison": "src/"
+          "MtnSmsCloud": "src/"
         }
     }
 }
