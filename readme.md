@@ -18,15 +18,17 @@ composer require adjemin/mtnsmscloud
 ```
 
 ## Architecture
+
 This repo has two main classes:
 
-  - **BaseApi** in `./core/BaseApi.php`
-  - **MTNSMSApi** in `./MTNSMSApi.php`
+  - **BaseApi** in [`./src/MtnSmsCloud/BaseApi.php`](`./src/MtnSmsCloud/BaseApi.php`)
+  - **MTNSMSApi** in [`./src/MtnSmsCloudException/MTNSMSApi.php`](`./src/MtnSmsCloudException/MTNSMSApi.php`)
 
 The first class is used to perform POST and GET HTTP request.
 The second one is used for MTN SMS.
 
 ## Instanciation
+
 Be sure to check the namespace first.
 
 ```php
@@ -55,7 +57,6 @@ return $msa->newCampaign($recipients, $message);
  * @param string $message
  */
 return $msa->getCampaign($campaign_id, $message);
-
 ```
 
 > Made with :heart: by Adjemin
