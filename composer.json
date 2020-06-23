@@ -4,7 +4,7 @@
     "type": "library",
     "homepage": "https://github.com/adjemin/mtnsmscloud-php",
     "license": "MIT",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "keywords": [
         "smscloud",
         "integration",
