@@ -1,4 +1,8 @@
 # MTN SMS CLOUD PHP
+
+[![Latest Stable Version](https://poser.pugx.org/adjemin/mtnsmscloud/v)](//packagist.org/packages/adjemin/mtnsmscloud) [![Total Downloads](https://poser.pugx.org/adjemin/mtnsmscloud/downloads)](//packagist.org/packages/adjemin/mtnsmscloud) [![Latest Unstable Version](https://poser.pugx.org/adjemin/mtnsmscloud/v/unstable)](//packagist.org/packages/adjemin/mtnsmscloud) [![License](https://poser.pugx.org/adjemin/mtnsmscloud/license)](//packagist.org/packages/adjemin/mtnsmscloud)
+
+
 This repository provides suitables tools for performing sms campaign. Actually, only Api's from MTN SMS CLOUD are embedded.
 
 ## Requirements
