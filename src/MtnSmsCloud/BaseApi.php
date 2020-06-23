@@ -1,6 +1,9 @@
 <?php
 
 namespace MtnSmsCloud;
+
+use Exception;
+
 /**
  * This class is for for performing Api call.
  * Actually, only POST and GET methods are embedded for an Http request.
