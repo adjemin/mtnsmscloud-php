@@ -146,7 +146,7 @@ class MTNSMSApi extends BaseApi
                 'Content-Type: application/json',
                 'Cache-Control: no-cache'
             ],
-            'params' => $bparams
+            'params' => $params
         ];
 
         // Sending POST Request
