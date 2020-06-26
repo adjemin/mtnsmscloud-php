@@ -2,6 +2,8 @@
 
 namespace MtnSmsCloud;
 
+use MtnSmsCloud\Exception\MtnSmsCloudException;
+
 /**
  * This class is for for performing Api call on MTN SMS CLOUD server.
  * You can use it for:
@@ -123,22 +125,17 @@ class MTNSMSApi extends BaseApi
      * @param array $body
      * @return mixed
      */
-    public function newCampaign($recipients, $content)
+    public function newCampaign(array $recipients, $content)
     {
-        // Recipients testing
-        if (is_array($recipients) == false) {
-            $this->sendError(400, false, "The parameter `recipients` must be an array");
-        }
-
         if (count($recipients) == 0) {
-            $this->sendError(400, false, "No phone number provided.");
+            throw new MtnSmsCloudException("No phone number provided.", 400);
         }
         
         // Scafolding the request's params
         $params = [
-            "sender"=> $this->getSenderID(),
-            "recipients"=> $recipients,
-            "content"=> $content
+            "sender" => $this->getSenderID(),
+            "recipients" => $recipients,
+            "content" => $content
         ];
 
         // Scafolding request's options
@@ -165,7 +162,7 @@ class MTNSMSApi extends BaseApi
     public function getCampaign($campaign_id)
     {
         if (is_null($campaign_id) || $campaign_id == "") {
-            return $this->sendError(400, false, "No campaign ID provided.");
+            return new MtnSmsCloudException("No campaign ID provided.", 400);
         }
 
         // Scafolding request's options
@@ -185,20 +182,36 @@ class MTNSMSApi extends BaseApi
     /**
      * Retrieves all messages associated to the provided authentification Bearer token
      *
-     * All dispatchedAt_* format { (Datetime) 2020-02-14 14:14:00 => 20200214141400}
-     *
-     * @param string $status,
-     * @param string $campaign_id,
-     * @param string $dispatchedAt_before
-     * @param string $dispatchedAt_after
-     * @param string $updatedAt_before
-     * @param string $updatedAt_after
-     * @param int $page Page numbe
-     * @param int $length Nomber of messages per pages
+     * @param string $campaign_id
+     * @param string $status
+     * @param array $params
      * @return mixed
      */
-    public function getMessages($status = null, $campaign_id, $dispatchedAt_before, $dispatchedAt_after, $updatedAt_before = null, $updatedAt_after = null, $page = 1, $length = 2)
+    public function getMessages($campaign_id, $status, $params = [])
     {
+        if (is_null($campaign_id) || $campaign_id == "") {
+            return new MtnSmsCloudException("No campaign ID provided.", 400);
+        }
+
+        $default_params = [
+            'dispatchedAt_before' => null,
+            'dispatchedAt_after' => null,
+            'updatedAt_before' => null,
+            'updatedAt_after' => null,
+            'page' => 1,
+            'length' => 2
+        ];
+
+        foreach ($default_params as $key => $value) {
+            if (!is_isset($params[$key])) {
+                $params[$key] = $value;
+            }
+        }
+
+        $params['campaingId'] = $campaign_id;
+        $params['status'] = $status;
+        $params['sender'] = $this->getSenderID();
+
         $options = [
             'headers'=> [
                 'Authorization: Bearer '.$this->getAuthHeader(),
@@ -206,20 +219,10 @@ class MTNSMSApi extends BaseApi
                 'Content-Type: application/json',
                 'Cache-Control: no-cache'
             ],
-            'params' => [
-                'sender' => $this->getSenderID(),
-                'status' => $status,
-                'campaingId' => $campaign_id,
-                'dispatchedAt_before' => $dispatchedAt_before,
-                'dispatchedAt_after' => $dispatchedAt_after,
-                'updatedAt_before' => $updatedAt_before,
-                'updatedAt_after' => $updatedAt_after,
-                'page' => $page,
-                'length' => $length,
-            ],
+            'params' => $params,
         ];
 
         // Sending Get Request
-        $this->get('messages/outbox', $options);
+        return $this->get('messages/outbox', $options);
     }
 }

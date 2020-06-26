@@ -32,7 +32,7 @@ The second one is used for MTN SMS.
 Be sure to check the namespace first.
 
 ```php
-use MtnSmsCloud/MTNSMSApi;
+use MtnSmsCloud\MTNSMSApi;
 
 /**
  * Create a new Instance
