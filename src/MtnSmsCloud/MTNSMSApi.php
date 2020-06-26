@@ -180,38 +180,25 @@ class MTNSMSApi extends BaseApi
     }
 
     /**
-     * Retrieves all messages associated to the provided authentification Bearer token
+     * Retrieves all messages dispatchedAt_* format { (Datetime) 2020-02-14 14:14:00 => 20200214141400}
      *
-     * @param string $campaign_id
-     * @param string $status
-     * @param array $params
+     * @param string $status,
+     * @param string $campaign_id,
+     * @param string $dispatchedAt_before
+     * @param string $dispatchedAt_after
+     * @param string $updatedAt_before
+     * @param string $updatedAt_after
+     * @param int $page Page number
+     * @param int $length Number of messages per pages
      * @return mixed
      */
-    public function getMessages($campaign_id, $status, $params = [])
+    public function getMessages(string $status = null, string $campaign_id, string $dispatchedAt_before, string $dispatchedAt_after, string $updatedAt_before = null, string $updatedAt_after = null, int $page = 1, int $length = 2)
     {
         if (is_null($campaign_id) || $campaign_id == "") {
             return new MtnSmsCloudException("No campaign ID provided.", 400);
         }
 
-        $default_params = [
-            'dispatchedAt_before' => null,
-            'dispatchedAt_after' => null,
-            'updatedAt_before' => null,
-            'updatedAt_after' => null,
-            'page' => 1,
-            'length' => 2
-        ];
-
-        foreach ($default_params as $key => $value) {
-            if (!is_isset($params[$key])) {
-                $params[$key] = $value;
-            }
-        }
-
-        $params['campaingId'] = $campaign_id;
-        $params['status'] = $status;
-        $params['sender'] = $this->getSenderID();
-
+        
         $options = [
             'headers'=> [
                 'Authorization: Bearer '.$this->getAuthHeader(),
@@ -219,7 +206,17 @@ class MTNSMSApi extends BaseApi
                 'Content-Type: application/json',
                 'Cache-Control: no-cache'
             ],
-            'params' => $params,
+            'params' => [
+                'sender' => $this->getSenderID(),
+                'status' => $status,
+                'campaingId' => $campaign_id,
+                'dispatchedAt_before' => $dispatchedAt_before,
+                'dispatchedAt_after' => $dispatchedAt_after,
+                'updatedAt_before' => $updatedAt_before,
+                'updatedAt_after' => $updatedAt_after,
+                'page' => $page,
+                'length' => $length,
+            ]
         ];
 
         // Sending Get Request
